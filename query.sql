@@ -103,7 +103,11 @@ WHERE t.`year` = 2016
 GROUP BY vg.`id`;
 
 -- 3- Mostrare le categorie di ogni videogioco (1718)
-
+SELECT DISTINCT v.*, c.`name`
+FROM `videogames` v
+JOIN `category_videogame` cv ON v.`id` = cv.`videogame_id`
+JOIN `categories` c ON cv.`category_id` = c.`id`
+ORDER BY v.`id`
 
 -- 4- Selezionare i dati di tutte le software house che hanno rilasciato almeno un gioco dopo il 2020, mostrandoli una sola volta (6)
 SELECT DISTINCT sh.*
@@ -119,6 +123,14 @@ JOIN `videogames` vg ON aw.`videogame_id` = vg.`id`
 JOIN `software_houses` sh ON vg.`software_house_id` = sh.`id`;
 
 -- 6- Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
+SELECT DISTINCT v.*, c.`name`, pl.`name`
+FROM `videogames` v
+JOIN `category_videogame` cv ON v.`id` = cv.`videogame_id`
+JOIN `categories` c ON cv.`category_id` = c.`id`
+JOIN `pegi_label_videogame` plv ON v.`id` = plv.`videogame_id`
+JOIN `pegi_labels` pl ON plv.`pegi_label_id` = pl.`id`
+JOIN `reviews` r ON v.`id` = r.`videogame_id`
+WHERE r.`rating` IN (4, 5);
 
 
 -- 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
