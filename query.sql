@@ -87,13 +87,46 @@ ORDER BY average_rat DESC;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- JOIN
 -- 1- Selezionare i dati di tutti giocatori che hanno scritto almeno una recensione, mostrandoli una sola volta (996)
+SELECT DISTINCT p.*
+FROM `players` p
+JOIN `reviews` r ON p.`id` = r.`player_id`
+GROUP BY p.`id`;
+
 -- 2- Sezionare tutti i videogame dei tornei tenuti nel 2016, mostrandoli una sola volta (226)
+SELECT DISTINCT vg.*
+FROM `videogames` vg
+JOIN `tournament_videogame` trnm 
+ON vg.`id` = trnm.`videogame_id`
+JOIN `tournaments` t 
+ON trnm.`tournament_id` = t.`id`
+WHERE t.`year` = 2016
+GROUP BY vg.`id`;
+
 -- 3- Mostrare le categorie di ogni videogioco (1718)
+
+
 -- 4- Selezionare i dati di tutte le software house che hanno rilasciato almeno un gioco dopo il 2020, mostrandoli una sola volta (6)
+SELECT DISTINCT sh.*
+FROM `software_houses` sh
+JOIN `videogames` vg
+ON vg.`software_house_id` = sh.`id`
+WHERE YEAR(vg.`release_date`) > 2020
+
 -- 5- Selezionare i premi ricevuti da ogni software house per i videogiochi che ha prodotto (55)
+SELECT DISTINCT aw.* 
+FROM `award_videogame` aw 
+JOIN `videogames` vg ON aw.`videogame_id` = vg.`id` 
+JOIN `software_houses` sh ON vg.`software_house_id` = sh.`id`;
+
 -- 6- Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
+
+
 -- 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
+
+
 -- 8- Selezionare le città in cui è stato giocato il gioco dell'anno del 2018 (36)
+
+
 -- 9- Selezionare i giocatori che hanno giocato al gioco più atteso del 2018 in un torneo del 2019 (3306)
 -- *********** BONUS ***********
 -- 10- Selezionare i dati della prima software house che ha rilasciato un gioco, assieme ai dati del gioco stesso (software house id : 5)
